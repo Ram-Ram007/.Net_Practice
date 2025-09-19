@@ -3,6 +3,7 @@ using EmployeeAdminPortal.Models;
 using EmployeeAdminPortal.Models.Entites;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeAdminPortal.Controllers
 {
@@ -31,7 +32,7 @@ namespace EmployeeAdminPortal.Controllers
         public IActionResult GetEmployeeById(Guid id)
         {
             var employee = dbcontext.Employees.Find(id);
-            if(employee is null)
+            if (employee is null)
             {
                 return NotFound();
             }
@@ -48,7 +49,7 @@ namespace EmployeeAdminPortal.Controllers
         [HttpPost]
 
 
-           public IActionResult setallEMployees(AddEmployeeDto addEmployeeDto)
+        public IActionResult setallEMployees(AddEmployeeDto addEmployeeDto)
         {
             var emplopyeeEntity = new Employee()
             {
@@ -62,5 +63,49 @@ namespace EmployeeAdminPortal.Controllers
 
             return Ok(emplopyeeEntity);
         }
+
+
+        [HttpPut]
+        [Route("{id:guid}")]
+
+        public IActionResult UpdateEmployeeById(Guid id, UpdateEmployeeDto updateEmployeeDto)
+        {
+            var employee = dbcontext.Employees.Find(id);
+
+            if (employee is null)
+            {
+                return NotFound();
+            }
+
+            employee.Name = updateEmployeeDto.Name;
+            employee.Email = updateEmployeeDto.Email;
+            employee.Phone = updateEmployeeDto.Phone;
+            employee.Salary = updateEmployeeDto.Salary;
+
+            dbcontext.SaveChanges();
+
+            return Ok(employee);
+        }
+
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public  IActionResult DeleteEmployeeById(Guid id)
+        {
+
+            var employee = dbcontext.Employees.Find(id);
+
+            if(employee is null)
+            {
+                return NotFound();
+            }
+
+            dbcontext.Employees.Remove(employee);
+
+            dbcontext.SaveChanges();
+
+            return Ok("successfully deleted");
+
+        }
+
     }
 }
