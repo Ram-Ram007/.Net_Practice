@@ -1,0 +1,20 @@
+# Ignore Visual Studio temporary files, build results, and user-specific files
+.vs/
+*.user
+*.suo
+
+# Build folders
+bin/
+obj/
+
+# Logs
+*.log
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+
+# Other
+*.dbmdl
+*.jfm
